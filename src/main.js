@@ -1,4 +1,5 @@
 import { getImages } from './js/pixabay-api';
+import { renderImages } from './js/render-functions';
 
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -9,13 +10,25 @@ form.addEventListener('submit', handleImages);
 
 function handleImages(e) {
   e.preventDefault();
-
   const input = e.target.elements.search.value.trim();
-  if (input) {
-    getImages(input).then(value => {
-      if (value.hits.length === 0) {
+  if (input === '') {
+    iziToast.error({
+      backgroundColor: 'lightred',
+      icon: false,
+      progressBar: false,
+      close: false,
+      position: 'topRight',
+      message: 'Please, fill the field!',
+    });
+    return;
+  }
+
+  getImages(input)
+    .then(value => {
+      console.log(value);
+      if (value.hits && value.hits.length === 0) {
         iziToast.error({
-          backgroundColor: 'lightred',
+          backgroundColor: 'red',
           icon: false,
           progressBar: false,
           close: false,
@@ -24,15 +37,19 @@ function handleImages(e) {
             'Sorry, there are no images matching your search query. Please try again!',
         });
       }
+      renderImages(value.hits);
+    })
+    .catch(error => {
+      console.error('Error occurred while fetching images:', error);
+      iziToast.error({
+        backgroundColor: 'red',
+        icon: false,
+        progressBar: false,
+        close: false,
+        position: 'topRight',
+        message:
+          'Sorry, an error occurred while fetching images. Please try again!',
+      });
     });
-  } else {
-    iziToast.error({
-      backgroundColor: 'lightred',
-      icon: false,
-      progressBar: false,
-      close: false,
-      position: 'topRight',
-      message: 'Please, fill the field',
-    });
-  }
+  e.target.reset();
 }

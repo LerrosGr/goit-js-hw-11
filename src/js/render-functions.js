@@ -1,13 +1,26 @@
-export function imagesTemplate(image) {
-  return `<li class="card user-item" data-id="${image.id}">
-  <img
-    src="https://source.unsplash.com/720x1280/?random=${id}&girl,portret,celebrity"
-    alt="#"
-    class="user-avatar"
-  />
-  <h3 class="user-title">${name}</h3>
-  <p>Phone: ${email}</p>
-  <p>Email: ${phone}</p>
-  <button class="btn button">DELETE</button>
-</li>`;
+export function renderImages(imagesArr) {
+  return imagesArr
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => {
+        return `<li class="list-item">
+     <a class="gallery-link" href ="${largeImageURL}"
+      <img src="${webformatURL}" alt="${tags}" class="gallery-image" /> </a>
+      <ul class="information-container">
+        <li class="item-information-container"><p><span class="accent">Likes</span></br>${likes}</p></li>
+        <li class="item-information-container"><p><span class="accent">Views</span></br>${views}</p></li>
+        <li class="item-information-container"><p><span class="accent">Comments</span></br>${comments}</p></li>
+        <li class="item-information-container"><p><span class="accent">Downloads</span></br>${downloads}</p></li>
+        </ul>
+    </li>`;
+      }
+    )
+    .join('');
 }

@@ -8,5 +8,10 @@ export function getImages(q) {
     safesearch: 'true',
   });
   const url = `${BASE_URL}?${params}`;
-  return fetch(url).then(res => console.log(res.json()));
+  return fetch(url)
+    .then(res => console.log(res.json()))
+    .catch(error => {
+      console.error('Error occurred while fetching images:', error);
+      throw error;
+    });
 }
