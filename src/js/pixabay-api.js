@@ -9,7 +9,7 @@ export function getImages(q) {
   });
   const url = `${BASE_URL}?${params}`;
   return fetch(url)
-    .then(res => console.log(res.json()))
+    .then(res => res.json())
     .catch(error => {
       console.error('Error occurred while fetching images:', error);
       throw error;
