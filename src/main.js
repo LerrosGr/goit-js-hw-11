@@ -37,7 +37,8 @@ function handleImages(e) {
             'Sorry, there are no images matching your search query. Please try again!',
         });
       }
-      renderImages(value.hits);
+      const markup = renderImages(value.hits);
+      list.innerHTML('afterbegin', markup);
     })
     .catch(error => {
       console.error('Error occurred while fetching images:', error);
